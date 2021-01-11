@@ -26,7 +26,9 @@
 
 //可以用滑动窗口算法，初始化第一个窗口，每次移动窗口更新统计数量
 pub fn three_consecutive_odds(arr: Vec<i32>) -> bool {
-    if arr.len() < 3 { false }
+    if arr.len() < 3 {
+        return false;
+    }
     //初始化第一个窗口
     let mut count = 0;
     for i in 0..3 {
@@ -34,11 +36,18 @@ pub fn three_consecutive_odds(arr: Vec<i32>) -> bool {
             count += 1;
         }
     }
+    if count == 3 { return true; }
     //滑动窗口更新
     for i in 1..arr.len() - 2 {
         if arr[i - 1] % 2 == 1 { count -= 1 }
         if arr[i + 2] % 2 == 1 { count += 1 }
-        if count == 3 { true }
+        if count == 3 { return true; }
     }
-    false
+    return false;
+}
+
+#[test]
+fn test() {
+    let res = three_consecutive_odds(vec![1, 1, 1]);
+    assert!(res);
 }
