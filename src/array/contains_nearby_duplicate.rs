@@ -31,7 +31,8 @@ pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
     //迭代器进行遍历
     for (i, num) in nums.iter().enumerate() {
         if map.contains_key(num) {
-            let len = (i - map.get(num).unwrap() + 1) as i32;
+            let len = (i - map.get(num).unwrap()) as i32;
+            //println!("len:{},i:{},num:{}", len, i, num);
             if len <= k {
                 return true;
             }
@@ -39,11 +40,27 @@ pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
         //更新最后的index
         map.insert(num, i);
     }
-    return true;
+    return false;
 }
 
 #[test]
 fn test() {
     let res = contains_nearby_duplicate(vec![1, 2, 3, 1], 3);
     assert!(res);
+}
+
+//[1,2,3,1,2,3]
+// 2
+#[test]
+fn test2() {
+    let res = contains_nearby_duplicate(vec![1, 2, 3, 1, 2, 3], 2);
+    assert!(!res)
+}
+
+//[1,2,3,1]
+// 3
+#[test]
+fn test3() {
+    let res = contains_nearby_duplicate(vec![1, 2, 3, 1], 3);
+    assert!(res)
 }
