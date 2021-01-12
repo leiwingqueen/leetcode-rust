@@ -3,3 +3,4 @@
 mod three_consecutive_odds;
 mod contains_nearby_duplicate;
 mod transpose;
+mod majority_element;
