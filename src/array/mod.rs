@@ -8,3 +8,4 @@ mod is_one_bit_character;
 mod valid_mountain_array;
 mod dominant_index;
 mod subsets;
+mod prefixes_div_by5;
