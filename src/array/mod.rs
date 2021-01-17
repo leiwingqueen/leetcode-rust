@@ -9,3 +9,4 @@ mod valid_mountain_array;
 mod dominant_index;
 mod subsets;
 mod prefixes_div_by5;
+mod check_straight_line;
