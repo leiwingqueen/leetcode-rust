@@ -48,6 +48,10 @@ fn backtrack(path: &mut Vec<i32>, idx: usize, len: usize, nums: &Vec<i32>, sum: 
             //回溯
             path[i] -= nums[idx];
         }
+        //优化点1.如果当前分组为0，则没必要尝试下一个分组
+        if path[i] == 0 {
+            break;
+        }
     }
     //所有结果都尝试了，不行就返回false
     return false;
