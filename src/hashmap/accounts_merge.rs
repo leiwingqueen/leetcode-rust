@@ -32,7 +32,10 @@ accounts[i][j]的长度将在[1，30]的范围内。
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 
-pub fn accounts_merge(accounts: Vec<Vec<String>>) -> Vec<Vec<String>> {}
+
+pub fn accounts_merge(accounts: Vec<Vec<String>>) -> Vec<Vec<String>> {
+    return vec![];
+}
 
 #[test]
 fn test() {}
