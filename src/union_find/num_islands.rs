@@ -55,19 +55,20 @@ pub fn num_islands(grid: Vec<Vec<char>>) -> i32 {
     let mut uf = UnionFind::new(&grid);
     for i in 0..row {
         for j in 0..col {
+            if grid[i][j] == '0' {
+                continue;
+            }
             for dir in DIR.iter() {
-                if grid[i][j] == '1' {
-                    grid[i][j] = '0';
-                    let x = i as i32 + dir[0];
-                    let y = j as i32 + dir[1];
-                    if x < 0 || y < 0 {
-                        continue;
-                    }
-                    let x = x as usize;
-                    let y = y as usize;
-                    if x >= 0 && x < row && y >= 0 && y < col && grid[x][y] == '1' {
-                        uf.union(i * col + j, x * col + y);
-                    }
+                let x = i as i32 + dir[0];
+                let y = j as i32 + dir[1];
+                if x < 0 || y < 0 {
+                    continue;
+                }
+                let x = x as usize;
+                let y = y as usize;
+                if x >= 0 && x < row && y >= 0 && y < col && grid[x][y] == '1' {
+                    //println!("合并:[{},{}],[{},{}]", i, j, x, y);
+                    uf.union(i * col + j, x * col + y);
                 }
             }
         }
@@ -87,7 +88,7 @@ impl UnionFind {
     fn new(grid: &Vec<Vec<char>>) -> UnionFind {
         let row = grid.len();
         let col = grid[0].len();
-        let mut union_find = UnionFind { parent: vec![0; row * col], count: (row * col) as i32 };
+        let mut union_find = UnionFind { parent: vec![0; row * col], count: 0 };
         for i in 0..row {
             for j in 0..col {
                 if grid[i][j] == '1' {
@@ -130,4 +131,5 @@ fn test() {
     ];
     let res = num_islands(grid);
     println!("res:{}", res);
+    assert_eq!(1, res);
 }
