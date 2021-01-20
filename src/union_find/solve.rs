@@ -70,9 +70,7 @@ pub fn solve(board: &mut Vec<Vec<char>>) {
         for j in 0..col {
             if board[i][j] == 'O' {
                 let (x, y) = uf.find((i, j));
-                if i == 7 && j == 7 {
-                    print!("[7,7]的代表元:[{},{}]", x, y);
-                }
+                print!("[{},{}]的代表元:[{},{}]\n", i, j, x, y);
                 if x > 0 && x < row - 1 && y > 0 && y < col - 1 {
                     board[i][j] = 'X';
                 }
@@ -101,9 +99,11 @@ impl UnionFind {
         return uf;
     }
 
-    fn find(&self, point: (usize, usize)) -> (usize, usize) {
+    fn find(&mut self, point: (usize, usize)) -> (usize, usize) {
         let mut x = self.col * point.0 + point.1;
-        if self.parent[x] != x {
+        while self.parent[x] != x {
+            //路径压缩
+            self.parent[x] = self.parent[self.parent[x]];
             x = self.parent[x];
         }
         x = self.parent[x];
@@ -139,7 +139,24 @@ fn test() {
         vec!['X', 'X', 'X', 'X'],
         vec!['X', 'O', 'O', 'X'],
         vec!['X', 'X', 'O', 'X'],
-        vec!['X', 'O', 'X', 'X']];
+        vec!['X', 'X', 'O', 'X']];
+    solve(&mut boards);
+    for row in boards.iter() {
+        let mut s = String::new();
+        for ch in row.iter() {
+            s.push_str(ch.to_string().add(",").as_str());
+        }
+        println!("{}", s);
+    }
+}
+
+#[test]
+fn test3() {
+    let mut boards = vec![
+        vec!['X', 'X', 'X', 'X'],
+        vec!['X', 'O', 'O', 'X'],
+        vec!['X', 'X', 'O', 'X'],
+    ];
     solve(&mut boards);
     for row in boards.iter() {
         let mut s = String::new();
