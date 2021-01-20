@@ -49,43 +49,38 @@
 /*
 kruskal算法，最小生成树
  */
-
-struct Solution {}
-
-impl Solution {
-    pub fn min_cost_connect_points(points: Vec<Vec<i32>>) -> i32 {
-        let len = points.len();
-        if len == 0 {
-            return 0;
-        }
-        //构造边的集合
-        let mut edges = vec![];
-        for i in 0..len - 1 {
-            for j in i + 1..len {
-                let p1 = points[i][0] - points[j][0];
-                let p2 = points[i][1] - points[j][1];
-                //let dis = std::num::abs(points[i][0] - points[j][0]) + std::num::abs(points[i][1] - points[j][1]);
-                let dis = p1.abs() + p2.abs();
-                edges.push(Edge { x: i, y: j, len: dis });
-            }
-        }
-        //排序
-        edges.sort_by(|e1, e2| e1.len.cmp(&e2.len));
-        //遍历边
-        let mut uf = UnionFind::new(points);
-        let mut res = 0;
-        let mut count = 0;
-        for edge in edges.iter() {
-            if uf.union(edge.x, edge.y) {
-                res += edge.len;
-                count += 1;
-                if count == len - 1 {
-                    break;
-                }
-            }
-        }
-        return res;
+pub fn min_cost_connect_points(points: Vec<Vec<i32>>) -> i32 {
+    let len = points.len();
+    if len == 0 {
+        return 0;
     }
+    //构造边的集合
+    let mut edges = vec![];
+    for i in 0..len - 1 {
+        for j in i + 1..len {
+            let p1 = points[i][0] - points[j][0];
+            let p2 = points[i][1] - points[j][1];
+            //let dis = std::num::abs(points[i][0] - points[j][0]) + std::num::abs(points[i][1] - points[j][1]);
+            let dis = p1.abs() + p2.abs();
+            edges.push(Edge { x: i, y: j, len: dis });
+        }
+    }
+    //排序
+    edges.sort_by(|e1, e2| e1.len.cmp(&e2.len));
+    //遍历边
+    let mut uf = UnionFind::new(points);
+    let mut res = 0;
+    let mut count = 0;
+    for edge in edges.iter() {
+        if uf.union(edge.x, edge.y) {
+            res += edge.len;
+            count += 1;
+            if count == len - 1 {
+                break;
+            }
+        }
+    }
+    return res;
 }
 
 /*
@@ -135,6 +130,6 @@ struct Edge {
 #[test]
 fn test() {
     let points = vec![vec![0, 0], vec![2, 2], vec![3, 10], vec![5, 2], vec![7, 0]];
-    let res = Solution::min_cost_connect_points(points);
+    let res = min_cost_connect_points(points);
     println!("res:{}", res);
 }
