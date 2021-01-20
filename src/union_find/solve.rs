@@ -1,4 +1,4 @@
-use std::intrinsics::float_to_int_unchecked;
+use std::ops::Add;
 
 struct Solution {}
 
@@ -33,11 +33,17 @@ X O X X
 /*
 如果我们把代表元都设置为图的边缘的点，那么我们只需要判断其代表源是否在边缘便可以控制是否需要置0
  */
-const DIR: [[i32; 2]; 4] = [[1, 0], [-1, 0], [0, -1], [0, 1]];
+//const DIR: [[i32; 2]; 4] = [[1, 0], [-1, 0], [0, -1], [0, 1]];
+//理论上遍历两个方向就可以了
+const DIR: [[i32; 2]; 2] = [[1, 0], [0, 1]];
 
 pub fn solve(board: &mut Vec<Vec<char>>) {
     let row = board.len();
+    if row == 0 {
+        return;
+    }
     let col = board[0].len();
+    //先做一次合并
     let mut uf = UnionFind::new(board);
     for i in 0..row {
         for j in 0..col {
@@ -45,15 +51,30 @@ pub fn solve(board: &mut Vec<Vec<char>>) {
                 continue;
             }
             for dir in DIR.iter() {
-                let x = i + dir.0;
-                let y = j + dir.1;
+                let x = i as i32 + dir[0];
+                let y = j as i32 + dir[1];
                 if x < 0 || y < 0 {
                     continue;
                 }
                 let x = x as usize;
                 let y = y as usize;
-                if x >= 0 && x < row && y >= 0 && y < col && grid[x][y] == 'O' {
+                if x >= 0 && x < row && y >= 0 && y < col && board[x][y] == 'O' {
+                    println!("合并[{},{}]和[{},{}]", i, j, x, y);
                     uf.union((i, j), (x, y));
+                }
+            }
+        }
+    }
+    //然后再做一次遍历判断结点是否需要修改为X
+    for i in 0..row {
+        for j in 0..col {
+            if board[i][j] == 'O' {
+                let (x, y) = uf.find((i, j));
+                if i == 7 && j == 7 {
+                    print!("[7,7]的代表元:[{},{}]", x, y);
+                }
+                if x > 0 && x < row - 1 && y > 0 && y < col - 1 {
+                    board[i][j] = 'X';
                 }
             }
         }
@@ -92,23 +113,63 @@ impl UnionFind {
     fn union(&mut self, p1: (usize, usize), p2: (usize, usize)) -> bool {
         let root1 = self.find(p1);
         let root2 = self.find(p2);
-        if root1 == root2 {
-            return false;
+        return if root1 == root2 {
+            false
         } else {
             //选择边缘节点作为代表元
             if root1.0 == 0 || root1.0 == self.row - 1 || root1.1 == 0 || root1.1 == self.col - 1 {
-                self.parent[self.get_idx(&root2)] = self.get_idx(&root1);
+                let idx = self.get_idx(&root2);
+                self.parent[idx] = self.get_idx(&root1);
             } else {
-                self.parent[self.get_idx(&root1)] = self.get_idx(&root2);
+                let idx = self.get_idx(&root1);
+                self.parent[idx] = self.get_idx(&root2);
             }
-            return true;
-        }
+            true
+        };
     }
 
     fn get_idx(&self, point: &(usize, usize)) -> usize {
-        point.0 * self.col + point.1;
+        point.0 * self.col + point.1
     }
 }
 
 #[test]
-fn test() {}
+fn test() {
+    let mut boards = vec![
+        vec!['X', 'X', 'X', 'X'],
+        vec!['X', 'O', 'O', 'X'],
+        vec!['X', 'X', 'O', 'X'],
+        vec!['X', 'O', 'X', 'X']];
+    solve(&mut boards);
+    for row in boards.iter() {
+        let mut s = String::new();
+        for ch in row.iter() {
+            s.push_str(ch.to_string().add(",").as_str());
+        }
+        println!("{}", s);
+    }
+}
+
+#[test]
+fn test2() {
+    let mut board = vec![
+        vec!['X', 'O', 'X', 'O', 'X', 'O', 'O', 'O', 'X', 'O'],
+        vec!['X', 'O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X'],
+        vec!['O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X'],
+        vec!['O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'X'],
+        vec!['O', 'O', 'X', 'X', 'O', 'X', 'X', 'O', 'O', 'O'],
+        vec!['X', 'O', 'O', 'X', 'X', 'X', 'O', 'X', 'X', 'O'],
+        vec!['X', 'O', 'X', 'O', 'O', 'X', 'X', 'O', 'X', 'O'],
+        vec!['X', 'X', 'O', 'X', 'X', 'O', 'X', 'O', 'O', 'X'],
+        vec!['O', 'O', 'O', 'O', 'X', 'O', 'X', 'O', 'X', 'O'],
+        vec!['X', 'X', 'O', 'X', 'X', 'X', 'X', 'O', 'O', 'O']
+    ];
+    solve(&mut board);
+    for row in board.iter() {
+        let mut s = String::new();
+        for ch in row.iter() {
+            s.push_str(ch.to_string().add(",").as_str());
+        }
+        println!("{}", s);
+    }
+}
