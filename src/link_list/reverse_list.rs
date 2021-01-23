@@ -32,7 +32,7 @@ fn test() {
     let mut n1 = Some(Box::new(ListNode::new(1)));
     let mut n2 = Some(Box::new(ListNode::new(2)));
     let mut n3 = Some(Box::new(ListNode::new(3)));
-    n1.borrow().unwrap().next = n2;
+    //n1.borrow().unwrap().next = n2;
     //let n2 = n1.unwrap().next;
     //n2.unwrap().next = n3;
     let mut res = reverse_list(n1);
@@ -47,5 +47,5 @@ fn build_link_list(nums: Vec<i32>) -> Option<Box<ListNode>> {
     let mut idx = nums.len() - 1;
     let dummy = ListNode::new(0);
     let mut pre = ListNode::new(0);
-    while idx >= 0 {}
+    return None;
 }
