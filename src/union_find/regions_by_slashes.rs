@@ -88,6 +88,7 @@ grid[i][j] 是 '/'、'\'、或 ' '。
 pub fn regions_by_slashes(grid: Vec<String>) -> i32 {
     let size = grid.len();
     let mut uf = UnionFind::new(size * size * 4);
+    //格子内做合并
     for i in 0..size {
         for j in 0..size {
             let ch = grid[i].as_bytes()[j] as char;
@@ -167,7 +168,7 @@ impl UnionFind {
 
 #[test]
 fn test() {
-    let grid = vec![String::from("  /"), String::from("/ ")];
+    let grid = vec![String::from(" /"), String::from("/ ")];
     let res = regions_by_slashes(grid);
     println!("res:{}", res);
 }
