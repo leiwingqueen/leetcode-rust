@@ -6,6 +6,7 @@ mod hashmap;
 mod tree;
 mod link_list;
 mod util;
+mod rust_learn;
 
 fn main() {
     println!("hello world");

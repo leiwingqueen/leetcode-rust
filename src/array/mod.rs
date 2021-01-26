@@ -12,3 +12,4 @@ mod prefixes_div_by5;
 mod check_straight_line;
 mod maximum_product;
 mod increasing_subsequence;
+mod num_equiv_domino_pairs;
