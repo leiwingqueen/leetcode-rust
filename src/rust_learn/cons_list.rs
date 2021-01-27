@@ -10,7 +10,7 @@ enum List {
 fn test() {
     let mut list = &Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
     //只是遍历这个list就写不出来,好痛苦>_<
-    loop {
+    /*loop {
         let b = match list {
             Cons(n, mut l) => {
                 println!("{}", n);
@@ -24,5 +24,5 @@ fn test() {
             }
         };
         if !b { break; }
-    }
+    }*/
 }
