@@ -20,22 +20,21 @@
  */
 use crate::link_list::util::ListNode;
 use std::i32::MIN;
-use std::collections::HashMap;
 
 pub fn delete_duplicates(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
     if head.is_none() {
         return None;
     }
-    let mut dummy = Some(Box::new(ListNode { val: MIN, next: head }));
-    let mut pre = &mut dummy;
-    let cur = dummy.unwrap();
-    let mut cur = &mut cur.next;
+    let mut dummy = Some(Box::new(ListNode { val: MIN, next: head.clone() }));
+    let mut pre = &dummy;
+    let mut cur = &mut head.clone();
     while let Some(node) = cur {
-        let Some(n) = pre;
+        println!("{}",node.val);
+        /*let n = pre.unwrap();
         if node.val == n.val {
             let next_node = &mut node.next;
             node.next = next_node.take();
-        }
+        }*/
         cur = &mut node.next;
     }
     return dummy.unwrap().next;

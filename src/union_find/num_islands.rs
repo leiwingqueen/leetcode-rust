@@ -48,7 +48,6 @@ const DIR: [[i32; 2]; 4] = [[1, 0], [-1, 0], [0, -1], [0, 1]];
  */
 pub fn num_islands(grid: Vec<Vec<char>>) -> i32 {
     let mut grid = grid;
-    let x = [[1, 0], [-1, 0], [0, -1], [0, 1]];
     let row = grid.len();
     if row == 0 { return 0; }
     let col = grid[0].len();

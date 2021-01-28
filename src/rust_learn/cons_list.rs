@@ -1,5 +1,4 @@
 use crate::rust_learn::cons_list::List::{Cons, Nil};
-use std::borrow::BorrowMut;
 
 enum List {
     Cons(i32, Box<List>),

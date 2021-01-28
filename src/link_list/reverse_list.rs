@@ -14,7 +14,6 @@
  */
 
 use crate::link_list::util::ListNode;
-use std::borrow::Borrow;
 
 pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
     let mut lhs = head;
@@ -43,9 +42,3 @@ fn test() {
     }
 }
 
-fn build_link_list(nums: Vec<i32>) -> Option<Box<ListNode>> {
-    let mut idx = nums.len() - 1;
-    let dummy = ListNode::new(0);
-    let mut pre = ListNode::new(0);
-    return None;
-}
