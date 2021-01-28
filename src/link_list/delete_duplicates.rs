@@ -25,19 +25,23 @@ pub fn delete_duplicates(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
     if head.is_none() {
         return None;
     }
-    let mut dummy = Some(Box::new(ListNode { val: MIN, next: head.clone() }));
-    let mut pre = &dummy;
-    let mut cur = &mut head.clone();
-    while let Some(node) = cur {
-        println!("{}",node.val);
-        /*let n = pre.unwrap();
-        if node.val == n.val {
-            let next_node = &mut node.next;
-            node.next = next_node.take();
-        }*/
-        cur = &mut node.next;
+    //哑节点，方便删除操作
+    let mut dummy = Box::new(ListNode { val: MIN, next: head });
+    //需要修改pre的next指针，因此类型需要是&mut,同时pre的指针也会修改，所以定义的时候也需要是mut
+    let mut pre = &mut dummy;
+    //不能直接用head，因为head的所有权已经给dummy了
+    let mut cur = &mut pre.next;
+    while let Some(ref mut node) = cur {
+        println!("{}", node.val);
+        if node.val == pre.val {
+            //let next_node = node.next;
+            cur = &mut node.next;
+        } else {
+            pre = node;
+        }
+        cur = &mut (node.next);
     }
-    return dummy.unwrap().next;
+    return dummy.next;
 }
 
 fn delete_node(head: Option<Box<ListNode>>, val: i32) -> Option<Box<ListNode>> {
