@@ -32,14 +32,16 @@ pub fn delete_duplicates(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
     //不能直接用head，因为head的所有权已经给dummy了
     let mut cur = &mut pre.next;
     while let Some(ref mut node) = cur {
-        println!("{}", node.val);
-        if node.val == pre.val {
+        //删除节点
+        /*if node.val == pre.val {
             //let next_node = node.next;
-            cur = &mut node.next;
+            (*pre).next = node.next.take();
+            cur = &mut pre.next;
         } else {
             pre = node;
-        }
-        cur = &mut (node.next);
+            cur = &mut node.next;
+        }*/
+        cur = &mut node.next;
     }
     return dummy.next;
 }
