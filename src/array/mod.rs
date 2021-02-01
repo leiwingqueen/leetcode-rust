@@ -14,3 +14,4 @@ mod maximum_product;
 mod increasing_subsequence;
 mod num_equiv_domino_pairs;
 mod pivot_index;
+mod fair_candy_swap;
