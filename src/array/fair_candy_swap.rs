@@ -102,5 +102,30 @@ pub fn fair_candy_swap_2(a: Vec<i32>, b: Vec<i32>) -> Vec<i32> {
     return vec![];
 }
 
+/*
+在上面基础上在做一点优化
+ */
+pub fn fair_candy_swap_3(a: Vec<i32>, b: Vec<i32>) -> Vec<i32> {
+    let mut sum_a = 0;
+    let mut sum_b = 0;
+    let mut set_b = HashSet::new();
+    for num in a.iter() {
+        sum_a += *num;
+    }
+    for num in b.iter() {
+        sum_b += *num;
+        set_b.insert(*num);
+    }
+    //结果一定存在，这里先不考虑奇数场景
+    let diff = (sum_b - sum_a) / 2;
+    for i in 0..a.len() {
+        let expect_b = a[i] + diff;
+        if set_b.contains(&expect_b) {
+            return vec![a[i], expect_b];
+        }
+    }
+    return vec![];
+}
+
 #[test]
 fn test() {}
