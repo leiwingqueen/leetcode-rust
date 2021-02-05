@@ -40,28 +40,29 @@ s 和 t 都只含小写英文字母。
  */
 pub fn equal_substring(s: String, t: String, max_cost: i32) -> i32 {
     let len = s.len();
-    let mut l = 0;
-    let mut r = 0;
+    //简化写法
+    let (mut l, mut r) = (0, 0);
     let mut cost = 0;
     let mut res = 0;
-    let s = s.into_bytes();
-    let t = t.into_bytes();
+    //类型转换,shadow
+    let (s, t) = (s.into_bytes(), t.into_bytes());
     while r < len {
         //窗口右移动
         cost += (s[r] as i32 - t[r] as i32).abs();
         r += 1;
         if cost <= max_cost {
-            res = if cost > res { cost } else { res };
+            res = if r - l > res { r - l } else { res };
         } else {
             cost -= (s[l] as i32 - t[l] as i32).abs();
             l += 1;
         }
     }
-    return res;
+    return res as i32;
 }
 
 #[test]
 fn test() {
     let res = equal_substring(String::from("abcd"), String::from("cdef"), 3);
     println!("{}", res);
+    assert_eq!(1, res);
 }
