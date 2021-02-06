@@ -53,9 +53,11 @@ pub fn count_balls(low_limit: i32, high_limit: i32) -> i32 {
     let mut max = 0;
     for i in low_limit..high_limit + 1 {
         let idx = box_num(i);
-        //map.entry(idx).or_insert_with(|| 1);
+        let v = map.entry(idx).or_insert_with(|| 0);
+        let v = *v + 1;
+        map.insert(idx, v);
         //这种写法是不行的
-        let opt = map.get(&idx);
+        /*let opt = map.get(&idx);
         let res = match opt {
             None => {
                 map.insert(idx, 1);
@@ -65,8 +67,8 @@ pub fn count_balls(low_limit: i32, high_limit: i32) -> i32 {
                 map.insert(idx, num + 1);
                 num + 1
             }
-        };
-        max = if res > max { res } else { max };
+        };*/
+        max = if v > max { v } else { max };
     }
     return max;
 }
